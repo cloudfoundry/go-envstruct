@@ -1,6 +1,6 @@
-[![GoDoc](https://godoc.org/github.com/bradylove/envstruct?status.png)](https://godoc.org/github.com/bradylove/envstruct)
-
 # envstruct
+
+[![GoDoc][go-doc-badge]][go-doc] [![travis][travis-badge]][travis] [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
 
 envstruct is a simple library for populating values on structs from environment
 variables.
@@ -28,7 +28,7 @@ value you can add `noreport` to the struct tag as shown with `Password`
 ```
 package main
 
-import "github.com/bradylove/envstruct"
+import envstruct "code.cloudfoundry.org/go-envstruct"
 
 type HostInfo struct {
 	IP       string `env:"HOST_IP,required"`
@@ -89,3 +89,10 @@ $ go get github.com/onsi/ginkgo/ginkgo
 $ go get github.com/onsi/gomega
 $ ginkgo
 ```
+
+[slack-badge]:       https://slack.cloudfoundry.org/badge.svg
+[loggregator-slack]: https://cloudfoundry.slack.com/archives/loggregator
+[go-doc-badge]:      https://godoc.org/code.cloudfoundry.org/go-loggregator?status.svg
+[go-doc]:            https://godoc.org/code.cloudfoundry.org/go-loggregator
+[travis-badge]:      https://travis-ci.org/cloudfoundry/go-envstruct.svg?branch=master
+[travis]:            https://travis-ci.org/cloudfoundry/go-envstruct?branch=master
