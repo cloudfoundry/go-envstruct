@@ -42,10 +42,6 @@ func Load(t interface{}) error {
 			return fmt.Errorf("%s is required but was empty", envVar)
 		}
 
-		if envVal == "" {
-			continue
-		}
-
 		err := setField(valueField, envVal)
 		if err != nil {
 			return err
@@ -76,6 +72,13 @@ func unmarshaller(v reflect.Value) (Unmarshaller, bool) {
 }
 
 func setField(value reflect.Value, input string) error {
+	if input == "" &&
+		(value.Kind() != reflect.Ptr) &&
+		(value.Kind() != reflect.Struct) {
+
+		return nil
+	}
+
 	if unmarshaller, ok := unmarshaller(value); ok {
 		return unmarshaller.UnmarshalEnv(input)
 	}
@@ -97,6 +100,10 @@ func setField(value reflect.Value, input string) error {
 		return setUint(value, input)
 	case reflect.Slice:
 		return setSlice(value, input)
+	case reflect.Struct:
+		return setStruct(value)
+	case reflect.Ptr:
+		return setPointerToStruct(value)
 	}
 
 	return nil
@@ -114,6 +121,30 @@ func extractSliceInputs(input string) []string {
 
 func isInvalid(input string, required bool) bool {
 	return required && input == ""
+}
+
+func setStruct(value reflect.Value) error {
+	p := reflect.New(value.Type())
+	err := Load(p.Interface())
+	if err != nil {
+		return err
+	}
+
+	value.Set(p.Elem())
+
+	return nil
+}
+
+func setPointerToStruct(value reflect.Value) error {
+	p := reflect.New(value.Type().Elem())
+	err := Load(p.Interface())
+	if err != nil {
+		return err
+	}
+
+	value.Set(p)
+
+	return nil
 }
 
 func setDuration(value reflect.Value, input string) error {

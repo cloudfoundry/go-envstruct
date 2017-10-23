@@ -33,6 +33,8 @@ var (
 		"URL_THING":            "http://github.com/some/path",
 		"UNMARSHALLER_POINTER": "pointer",
 		"UNMARSHALLER_VALUE":   "value",
+		"SUB_THING_A":          "sub-string-a",
+		"SUB_THING_B":          "200",
 		"CaSe_SeNsItIvE_ThInG": "case sensitive",
 	}
 )
@@ -63,6 +65,9 @@ type LargeTestStruct struct {
 	DurationThing time.Duration `env:"DURATION_THING"`
 	URLThing      *url.URL      `env:"URL_THING"`
 
+	SubStruct        SubTestStruct
+	SubPointerStruct *SubTestStruct
+
 	UnmarshallerPointer *mockUnmarshaller `env:"UNMARSHALLER_POINTER"`
 	UnmarshallerValue   mockUnmarshaller  `env:"UNMARSHALLER_VALUE"`
 }
@@ -75,6 +80,11 @@ type SmallTestStruct struct {
 	URLThing           *url.URL `env:"URL_THING"`
 	StringSliceThing   []string `env:"STRING_SLICE_THING"`
 	CaseSensitiveThing string   `env:"CaSe_SeNsItIvE_ThInG"`
+}
+
+type SubTestStruct struct {
+	SubThingA string `env:"SUB_THING_A"`
+	SubThingB int    `env:"SUB_THING_B,required"`
 }
 
 func TestEnvstruct(t *testing.T) {

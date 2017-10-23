@@ -188,11 +188,26 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
-			Context("with structs", func() {
+			Context("with a sub struct containing env tags", func() {
+				It("populates the values of the substruct", func() {
+					Expect(ts.SubStruct.SubThingA).To(Equal("sub-string-a"))
+					Expect(ts.SubStruct.SubThingB).To(Equal(200))
+				})
+
+				It("populates the values of the pointer to substruct", func() {
+					Expect(ts.SubPointerStruct).ToNot(BeNil())
+					Expect(ts.SubPointerStruct.SubThingA).To(Equal("sub-string-a"))
+					Expect(ts.SubPointerStruct.SubThingB).To(Equal(200))
+				})
+			})
+
+			Context("with duration struct", func() {
 				It("parses the duration string", func() {
 					Expect(ts.DurationThing).To(Equal(2 * time.Second))
 				})
+			})
 
+			Context("with url struct", func() {
 				It("parses the url string", func() {
 					Expect(ts.URLThing.Scheme).To(Equal("http"))
 					Expect(ts.URLThing.Host).To(Equal("github.com"))
@@ -220,6 +235,18 @@ var _ = Describe("envstruct", func() {
 					loadError = envstruct.Load(&ts)
 
 					Expect(loadError).To(MatchError(fmt.Errorf("REQUIRED_THING is required but was empty")))
+				})
+			})
+
+			Context("when a required environment variable for substruct is not given", func() {
+				BeforeEach(func() {
+					envVars["SUB_THING_B"] = ""
+				})
+
+				It("returns a validation error", func() {
+					loadError = envstruct.Load(&ts)
+
+					Expect(loadError).To(MatchError(fmt.Errorf("SUB_THING_B is required but was empty")))
 				})
 			})
 
