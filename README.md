@@ -78,6 +78,9 @@ Port         int     HOST_PORT  false      80
 - [ ] complex128
 - [x] []slice (Slices of any other supported type. Environment variable should have coma separated values)
 - [x] time.Duration
+- [x] Struct
+- [x] Pointer to Struct
+- [ ] Map
 
 ## Running Tests
 
