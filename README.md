@@ -76,11 +76,14 @@ Port         int     HOST_PORT  false      80
 - [ ] float64
 - [ ] complex64
 - [ ] complex128
-- [x] []slice (Slices of any other supported type. Environment variable should have coma separated values)
+- [x] []slice (Slices of any other supported type. Environment variable should
+  have coma separated values)
 - [x] time.Duration
 - [x] Struct
 - [x] Pointer to Struct
-- [ ] Map
+- [x] map[string]string (Environment variable should have comma separated
+  `key:value`. Keys cannot contain colons and neither key nor value can
+  contain commas. e.g. `key_one:value_one, key_two:value_two`
 
 ## Running Tests
 

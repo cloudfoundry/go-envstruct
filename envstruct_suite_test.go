@@ -14,28 +14,29 @@ import (
 
 var (
 	baseEnvVars = map[string]string{
-		"STRING_THING":         "stringy thingy",
-		"REQUIRED_THING":       "im so required",
-		"BOOL_THING":           "true",
-		"INT_THING":            "100",
-		"INT8_THING":           "20",
-		"INT16_THING":          "2000",
-		"INT32_THING":          "200000",
-		"INT64_THING":          "200000000",
-		"UINT_THING":           "100",
-		"UINT8_THING":          "20",
-		"UINT16_THING":         "2000",
-		"UINT32_THING":         "200000",
-		"UINT64_THING":         "200000000",
-		"STRING_SLICE_THING":   "one,two,three",
-		"INT_SLICE_THING":      "1,2,3",
-		"DURATION_THING":       "2s",
-		"URL_THING":            "http://github.com/some/path",
-		"UNMARSHALLER_POINTER": "pointer",
-		"UNMARSHALLER_VALUE":   "value",
-		"SUB_THING_A":          "sub-string-a",
-		"SUB_THING_B":          "200",
-		"CaSe_SeNsItIvE_ThInG": "case sensitive",
+		"STRING_THING":            "stringy thingy",
+		"REQUIRED_THING":          "im so required",
+		"BOOL_THING":              "true",
+		"INT_THING":               "100",
+		"INT8_THING":              "20",
+		"INT16_THING":             "2000",
+		"INT32_THING":             "200000",
+		"INT64_THING":             "200000000",
+		"UINT_THING":              "100",
+		"UINT8_THING":             "20",
+		"UINT16_THING":            "2000",
+		"UINT32_THING":            "200000",
+		"UINT64_THING":            "200000000",
+		"STRING_SLICE_THING":      "one,two,three",
+		"INT_SLICE_THING":         "1,2,3",
+		"MAP_STRING_STRING_THING": "key_one:value_one,key_two:value_two:with_colon",
+		"DURATION_THING":          "2s",
+		"URL_THING":               "http://github.com/some/path",
+		"UNMARSHALLER_POINTER":    "pointer",
+		"UNMARSHALLER_VALUE":      "value",
+		"SUB_THING_A":             "sub-string-a",
+		"SUB_THING_B":             "200",
+		"CaSe_SeNsItIvE_ThInG":    "case sensitive",
 	}
 )
 
@@ -61,6 +62,8 @@ type LargeTestStruct struct {
 
 	StringSliceThing []string `env:"STRING_SLICE_THING"`
 	IntSliceThing    []int    `env:"INT_SLICE_THING"`
+
+	MapStringStringThing map[string]string `env:"MAP_STRING_STRING_THING"`
 
 	DurationThing time.Duration `env:"DURATION_THING"`
 	URLThing      *url.URL      `env:"URL_THING"`

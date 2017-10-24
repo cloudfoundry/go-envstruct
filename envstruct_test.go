@@ -188,7 +188,26 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
-			Context("with a sub struct containing env tags", func() {
+			Context("with map[string]string", func() {
+				It("takes a comma separated list of key:value", func() {
+					Expect(ts.MapStringStringThing).To(Equal(map[string]string{
+						"key_one": "value_one",
+						"key_two": "value_two:with_colon",
+					}))
+				})
+
+				Context("when no value is given", func() {
+					BeforeEach(func() {
+						envVars["MAP_STRING_STRING_THING"] = "key"
+					})
+
+					It("returns an error if value is missing", func() {
+						Expect(loadError).To(MatchError("map[string]string key 'key' is missing a value"))
+					})
+				})
+			})
+
+			Context("with a sub struct contains env tags", func() {
 				It("populates the values of the substruct", func() {
 					Expect(ts.SubStruct.SubThingA).To(Equal("sub-string-a"))
 					Expect(ts.SubStruct.SubThingB).To(Equal(200))

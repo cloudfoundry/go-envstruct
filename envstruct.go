@@ -32,10 +32,9 @@ func Load(t interface{}) error {
 		typeField := val.Type().Field(i)
 		tag := typeField.Tag
 
-		tagProperties := extractSliceInputs(tag.Get("env"))
+		tagProperties := separateOnComma(tag.Get("env"))
 		envVar := tagProperties[indexEnvVar]
 		envVal := os.Getenv(envVar)
-
 		required := tagPropertiesContains(tagProperties, tagRequired)
 
 		if isInvalid(envVal, required) {
@@ -100,6 +99,8 @@ func setField(value reflect.Value, input string) error {
 		return setUint(value, input)
 	case reflect.Slice:
 		return setSlice(value, input)
+	case reflect.Map:
+		return setMap(value, input)
 	case reflect.Struct:
 		return setStruct(value)
 	case reflect.Ptr:
@@ -109,7 +110,7 @@ func setField(value reflect.Value, input string) error {
 	return nil
 }
 
-func extractSliceInputs(input string) []string {
+func separateOnComma(input string) []string {
 	inputs := strings.Split(input, ",")
 
 	for i, v := range inputs {
@@ -204,7 +205,7 @@ func setUint(value reflect.Value, input string) error {
 }
 
 func setSlice(value reflect.Value, input string) error {
-	inputs := extractSliceInputs(input)
+	inputs := separateOnComma(input)
 
 	rs := reflect.MakeSlice(value.Type(), len(inputs), len(inputs))
 	for i, val := range inputs {
@@ -215,6 +216,29 @@ func setSlice(value reflect.Value, input string) error {
 	}
 
 	value.Set(rs)
+
+	return nil
+}
+
+func setMap(value reflect.Value, input string) error {
+	inputs := separateOnComma(input)
+
+	m := make(map[string]string)
+	for _, i := range inputs {
+		kv := strings.SplitN(i, ":", 2)
+
+		if len(kv) == 0 {
+			continue
+		}
+
+		if len(kv) < 2 {
+			return fmt.Errorf("map[string]string key '%s' is missing a value", kv[0])
+		}
+
+		m[kv[0]] = kv[1]
+	}
+
+	value.Set(reflect.ValueOf(m))
 
 	return nil
 }

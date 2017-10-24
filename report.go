@@ -29,9 +29,8 @@ func WriteReport(t interface{}) error {
 		typeField := val.Type().Field(i)
 		tag := typeField.Tag
 
-		tagProperties := extractSliceInputs(tag.Get("env"))
+		tagProperties := separateOnComma(tag.Get("env"))
 		envVar := strings.ToUpper(tagProperties[indexEnvVar])
-
 		isRequired := tagPropertiesContains(tagProperties, tagRequired)
 
 		var displayedValue interface{} = valueField
