@@ -333,16 +333,11 @@ var _ = Describe("envstruct", func() {
 	})
 
 	Describe("ToEnv", func() {
-		var (
-			ts      ToEnvTestStruct
-			envVars map[string]string
-		)
-
-		BeforeEach(func() {
+		It("returns a slice of strings formatted as KEY=value", func() {
 			url, err := url.Parse("https://example.com")
 			Expect(err).ToNot(HaveOccurred())
 
-			ts = ToEnvTestStruct{
+			ts := ToEnvTestStruct{
 				HiddenThing:        "hidden-thing",
 				StringThing:        "string-thing",
 				BoolThing:          true,
@@ -358,20 +353,13 @@ var _ = Describe("envstruct", func() {
 					SubThingA: "sub-pointer-thing-a",
 					SubThingB: 500,
 				},
-				MapStringStringThing: map[string]string{
-					"key_one": "value_one",
-					"key_two": "value_two",
-				},
 			}
 
-			envVars = make(map[string]string)
 			for k, v := range baseEnvVars {
 				os.Setenv(k, v)
 			}
-		})
-
-		It("returns a slice of strings formatted as KEY=value", func() {
 			ret := envstruct.ToEnv(&ts)
+
 			Expect(ret).To(ConsistOf(
 				"HIDDEN_THING=hidden-thing",
 				"STRING_THING=string-thing",
@@ -384,8 +372,27 @@ var _ = Describe("envstruct", func() {
 				"SUB_THING_B=300",
 				"SUB_THING_A=sub-pointer-thing-a",
 				"SUB_THING_B=500",
-				"MAP_STRING_STRING_THING=key_one:value_one,key_two:value_two",
 			))
+		})
+
+		Context("with a map", func() {
+			It("returns a slice with a formatted map for environment variable", func() {
+				ts := ToEnvMapTestStruct{
+					MapStringStringThing: map[string]string{
+						"key_one": "value_one",
+						"key_two": "value_two",
+					},
+				}
+				for k, v := range baseEnvVars {
+					os.Setenv(k, v)
+				}
+				ret := envstruct.ToEnv(&ts)
+
+				Expect(ret[0]).To(ContainSubstring("MAP_STRING_STRING_THING="))
+				Expect(ret[0]).To(ContainSubstring("key_one:value_one"))
+				Expect(ret[0]).To(ContainSubstring(","))
+				Expect(ret[0]).To(ContainSubstring("key_two:value_two"))
+			})
 		})
 	})
 })
