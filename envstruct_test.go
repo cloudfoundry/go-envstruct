@@ -3,6 +3,7 @@ package envstruct_test
 import (
 	"errors"
 	"fmt"
+	"net/url"
 	"os"
 	"time"
 
@@ -310,6 +311,63 @@ var _ = Describe("envstruct", func() {
 					Expect(envstruct.Load(&ts)).ToNot(Succeed())
 				})
 			})
+		})
+	})
+
+	Describe("ToEnv", func() {
+		var (
+			ts      ToEnvTestStruct
+			envVars map[string]string
+		)
+
+		BeforeEach(func() {
+			url, err := url.Parse("https://example.com")
+			Expect(err).ToNot(HaveOccurred())
+
+			ts = ToEnvTestStruct{
+				HiddenThing:        "hidden-thing",
+				StringThing:        "string-thing",
+				BoolThing:          true,
+				IntThing:           200,
+				URLThing:           url,
+				StringSliceThing:   []string{"thing-1", "thing-2", "thing-3"},
+				CaseSensitiveThing: "case-sensitive-thing",
+				SubStruct: SubTestStruct{
+					SubThingA: "sub-string-a",
+					SubThingB: 300,
+				},
+				SubPointerStruct: &SubTestStruct{
+					SubThingA: "sub-pointer-thing-a",
+					SubThingB: 500,
+				},
+				MapStringStringThing: map[string]string{
+					"key_one": "value_one",
+					"key_two": "value_two",
+				},
+			}
+
+			envVars = make(map[string]string)
+			for k, v := range baseEnvVars {
+				os.Setenv(k, v)
+			}
+		})
+
+		It("returns a slice of strings formatted as KEY=value", func() {
+			ret := envstruct.ToEnv(&ts)
+			Expect(ret).To(ConsistOf(
+				"HIDDEN_THING=hidden-thing",
+				"STRING_THING=string-thing",
+				"BOOL_THING=true",
+				"INT_THING=200",
+				"URL_THING=https://example.com",
+				"STRING_SLICE_THING=thing-1,thing-2,thing-3",
+				"CaSe_SeNsItIvE_ThInG=case-sensitive-thing",
+				"SUB_THING_A=sub-string-a",
+				"SUB_THING_B=300",
+				"SUB_THING_A=sub-pointer-thing-a",
+				"SUB_THING_B=500",
+				"MAP_STRING_STRING_THING=key_one:value_one,key_two:value_two",
+			))
 		})
 	})
 })

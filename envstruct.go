@@ -50,6 +50,42 @@ func Load(t interface{}) error {
 	return nil
 }
 
+// ToEnv will return a slice of strings that can be used with exec.Cmd.Env
+// formatted as `ENVAR_NAME=value` for a given struct.
+func ToEnv(t interface{}) []string {
+	val := reflect.ValueOf(t).Elem()
+
+	var results []string
+	for i := 0; i < val.NumField(); i++ {
+		valueField := val.Field(i)
+		typeField := val.Type().Field(i)
+		tag := typeField.Tag
+
+		tagProperties := separateOnComma(tag.Get("env"))
+		envVar := tagProperties[indexEnvVar]
+
+		switch valueField.Kind() {
+		case reflect.Slice:
+			results = append(results, formatSlice(envVar, valueField))
+		case reflect.Map:
+			results = append(results, formatMap(envVar, valueField))
+		case reflect.Struct:
+			results = append(results, ToEnv(valueField.Addr().Interface())...)
+		case reflect.Ptr:
+			if valueField.Type() == reflect.TypeOf(&url.URL{}) {
+				results = append(results, fmt.Sprintf("%s=%+v", envVar, valueField))
+				continue
+			}
+
+			results = append(results, ToEnv(valueField.Interface())...)
+		default:
+			results = append(results, fmt.Sprintf("%s=%+v", envVar, valueField))
+		}
+	}
+
+	return results
+}
+
 func tagPropertiesContains(properties []string, match string) bool {
 	for _, v := range properties {
 		if v == match {
@@ -241,4 +277,26 @@ func setMap(value reflect.Value, input string) error {
 	value.Set(reflect.ValueOf(m))
 
 	return nil
+}
+
+func formatSlice(envVar string, value reflect.Value) string {
+	var parts []string
+	for i := 0; i < value.Len(); i++ {
+		parts = append(parts, fmt.Sprintf("%+v", value.Index(i)))
+	}
+
+	return fmt.Sprintf("%s=%+v", envVar, strings.Join(parts, ","))
+}
+
+func formatMap(envVar string, value reflect.Value) string {
+	var parts []string
+
+	keys := value.MapKeys()
+	for _, k := range keys {
+		v := value.MapIndex(k)
+
+		parts = append(parts, fmt.Sprintf("%+v:%+v", k, v))
+	}
+
+	return fmt.Sprintf("%s=%+v", envVar, strings.Join(parts, ","))
 }

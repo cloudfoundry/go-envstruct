@@ -85,6 +85,19 @@ type SmallTestStruct struct {
 	CaseSensitiveThing string   `env:"CaSe_SeNsItIvE_ThInG"`
 }
 
+type ToEnvTestStruct struct {
+	HiddenThing          string            `env:"HIDDEN_THING,noreport"`
+	StringThing          string            `env:"STRING_THING"`
+	BoolThing            bool              `env:"BOOL_THING"`
+	IntThing             int               `env:"INT_THING"`
+	URLThing             *url.URL          `env:"URL_THING"`
+	StringSliceThing     []string          `env:"STRING_SLICE_THING"`
+	CaseSensitiveThing   string            `env:"CaSe_SeNsItIvE_ThInG"`
+	MapStringStringThing map[string]string `env:"MAP_STRING_STRING_THING"`
+	SubStruct            SubTestStruct
+	SubPointerStruct     *SubTestStruct
+}
+
 type SubTestStruct struct {
 	SubThingA string `env:"SUB_THING_A"`
 	SubThingB int    `env:"SUB_THING_B,required"`
