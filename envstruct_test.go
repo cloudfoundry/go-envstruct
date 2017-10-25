@@ -219,6 +219,24 @@ var _ = Describe("envstruct", func() {
 					Expect(ts.SubPointerStruct.SubThingA).To(Equal("sub-string-a"))
 					Expect(ts.SubPointerStruct.SubThingB).To(Equal(200))
 				})
+
+				Describe("with default values", func() {
+					BeforeEach(func() {
+						ts.SubStruct = SubTestStruct{
+							SubThingA: "default-sub-a",
+						}
+						ts.SubPointerStruct = &SubTestStruct{
+							SubThingA: "default-sub-pointer-a",
+						}
+
+						envVars["SUB_THING_A"] = ""
+					})
+
+					It("maintains the default values", func() {
+						Expect(ts.SubStruct.SubThingA).To(Equal("default-sub-a"))
+						Expect(ts.SubPointerStruct.SubThingA).To(Equal("default-sub-pointer-a"))
+					})
+				})
 			})
 
 			Context("with duration struct", func() {

@@ -161,25 +161,24 @@ func isInvalid(input string, required bool) bool {
 }
 
 func setStruct(value reflect.Value) error {
-	p := reflect.New(value.Type())
-	err := Load(p.Interface())
+	err := Load(value.Addr().Interface())
 	if err != nil {
 		return err
 	}
-
-	value.Set(p.Elem())
 
 	return nil
 }
 
 func setPointerToStruct(value reflect.Value) error {
-	p := reflect.New(value.Type().Elem())
-	err := Load(p.Interface())
+	if value.IsNil() {
+		p := reflect.New(value.Type().Elem())
+		value.Set(p)
+	}
+
+	err := Load(value.Interface())
 	if err != nil {
 		return err
 	}
-
-	value.Set(p)
 
 	return nil
 }
