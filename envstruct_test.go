@@ -9,7 +9,6 @@ import (
 
 	envstruct "code.cloudfoundry.org/go-envstruct"
 
-	. "github.com/apoydence/eachers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -24,11 +23,8 @@ var _ = Describe("envstruct", func() {
 
 		BeforeEach(func() {
 			ts = LargeTestStruct{}
-			ts.UnmarshallerPointer = newMockUnmarshaller()
-			ts.UnmarshallerPointer.UnmarshalEnvOutput.Ret0 <- nil
-			um := newMockUnmarshaller()
-			ts.UnmarshallerValue = *um
-			ts.UnmarshallerValue.UnmarshalEnvOutput.Ret0 <- nil
+			ts.UnmarshallerPointer = &spyUnmarshaller{}
+			ts.UnmarshallerValue = spyUnmarshaller{}
 
 			envVars = make(map[string]string)
 			for k, v := range baseEnvVars {
@@ -59,15 +55,11 @@ var _ = Describe("envstruct", func() {
 
 			Context("with unmarshallers", func() {
 				It("passes the value to the pointer field", func() {
-					Expect(ts.UnmarshallerPointer.UnmarshalEnvInput).To(BeCalled(
-						With("pointer"),
-					))
+					Expect(ts.UnmarshallerPointer.UnmarshalEnvInput).To(Equal("pointer"))
 				})
 
 				It("passes the value to the value field's address", func() {
-					Expect(ts.UnmarshallerValue.UnmarshalEnvInput).To(BeCalled(
-						With("value"),
-					))
+					Expect(ts.UnmarshallerValue.UnmarshalEnvInput).To(Equal("value"))
 				})
 			})
 
@@ -310,8 +302,7 @@ var _ = Describe("envstruct", func() {
 
 			Context("with a failing unmarshaller pointer", func() {
 				BeforeEach(func() {
-					ts.UnmarshallerPointer.UnmarshalEnvOutput.Ret0 = make(chan error, 100)
-					ts.UnmarshallerPointer.UnmarshalEnvOutput.Ret0 <- errors.New("failed to unmarshal")
+					ts.UnmarshallerPointer.UnmarshalEnvOutput = errors.New("failed to unmarshal")
 				})
 
 				It("returns an error", func() {
@@ -321,8 +312,7 @@ var _ = Describe("envstruct", func() {
 
 			Context("with a failing unmarshaller value", func() {
 				BeforeEach(func() {
-					ts.UnmarshallerValue.UnmarshalEnvOutput.Ret0 = make(chan error, 100)
-					ts.UnmarshallerValue.UnmarshalEnvOutput.Ret0 <- errors.New("failed to unmarshal")
+					ts.UnmarshallerValue.UnmarshalEnvOutput = errors.New("failed to unmarshal")
 				})
 
 				It("returns an error", func() {

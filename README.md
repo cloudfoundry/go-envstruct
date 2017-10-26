@@ -90,7 +90,6 @@ Port         int     HOST_PORT  false      80
 Run tests using ginkgo.
 
 ```
-$ go get github.com/apoydence/eachers
 $ go get github.com/onsi/ginkgo/ginkgo
 $ go get github.com/onsi/gomega
 $ ginkgo
