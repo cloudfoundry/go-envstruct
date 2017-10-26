@@ -71,8 +71,8 @@ type LargeTestStruct struct {
 	SubStruct        SubTestStruct
 	SubPointerStruct *SubTestStruct
 
-	UnmarshallerPointer *mockUnmarshaller `env:"UNMARSHALLER_POINTER"`
-	UnmarshallerValue   mockUnmarshaller  `env:"UNMARSHALLER_VALUE"`
+	UnmarshallerPointer *spyUnmarshaller `env:"UNMARSHALLER_POINTER"`
+	UnmarshallerValue   spyUnmarshaller  `env:"UNMARSHALLER_VALUE"`
 }
 
 type SmallTestStruct struct {
@@ -104,6 +104,16 @@ type ToEnvMapTestStruct struct {
 type SubTestStruct struct {
 	SubThingA string `env:"SUB_THING_A"`
 	SubThingB int    `env:"SUB_THING_B,required"`
+}
+
+type spyUnmarshaller struct {
+	UnmarshalEnvInput  string
+	UnmarshalEnvOutput error
+}
+
+func (s *spyUnmarshaller) UnmarshalEnv(v string) error {
+	s.UnmarshalEnvInput = v
+	return s.UnmarshalEnvOutput
 }
 
 func TestEnvstruct(t *testing.T) {
