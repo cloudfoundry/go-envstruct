@@ -73,6 +73,8 @@ type LargeTestStruct struct {
 
 	UnmarshallerPointer *spyUnmarshaller `env:"UNMARSHALLER_POINTER"`
 	UnmarshallerValue   spyUnmarshaller  `env:"UNMARSHALLER_VALUE"`
+
+	TagglessPointer *url.URL
 }
 
 type SmallTestStruct struct {

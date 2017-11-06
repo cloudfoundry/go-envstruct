@@ -22,7 +22,9 @@ var _ = Describe("envstruct", func() {
 		)
 
 		BeforeEach(func() {
-			ts = LargeTestStruct{}
+			ts = LargeTestStruct{
+				TagglessPointer: &url.URL{},
+			}
 			ts.UnmarshallerPointer = &spyUnmarshaller{}
 			ts.UnmarshallerValue = spyUnmarshaller{}
 
@@ -36,6 +38,10 @@ var _ = Describe("envstruct", func() {
 			for k, v := range envVars {
 				os.Setenv(k, v)
 			}
+		})
+
+		It("ignores TaglessPointer", func() {
+			Expect(ts.TagglessPointer).To(Equal(&url.URL{}))
 		})
 
 		Context("when load is successful", func() {
