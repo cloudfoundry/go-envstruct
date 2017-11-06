@@ -32,12 +32,7 @@ func Load(t interface{}) error {
 		typeField := val.Type().Field(i)
 		tag := typeField.Tag
 
-		envTag := tag.Get("env")
-		if envTag == "" {
-			continue
-		}
-
-		tagProperties := separateOnComma(envTag)
+		tagProperties := separateOnComma(tag.Get("env"))
 		envVar := tagProperties[indexEnvVar]
 		envVal := os.Getenv(envVar)
 		required := tagPropertiesContains(tagProperties, tagRequired)
