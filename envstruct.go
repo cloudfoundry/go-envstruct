@@ -107,6 +107,10 @@ func unmarshaller(v reflect.Value) (Unmarshaller, bool) {
 }
 
 func setField(value reflect.Value, input string) error {
+	if !value.CanSet() {
+		return nil
+	}
+
 	if input == "" &&
 		(value.Kind() != reflect.Ptr) &&
 		(value.Kind() != reflect.Struct) {

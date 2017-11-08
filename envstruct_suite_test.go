@@ -3,6 +3,7 @@
 package envstruct_test
 
 import (
+	"crypto/tls"
 	"net/url"
 	"time"
 
@@ -73,6 +74,8 @@ type LargeTestStruct struct {
 
 	UnmarshallerPointer *spyUnmarshaller `env:"UNMARSHALLER_POINTER"`
 	UnmarshallerValue   spyUnmarshaller  `env:"UNMARSHALLER_VALUE"`
+
+	TLSConfigThing *tls.Config // Has unexported fields and no env struct tag
 }
 
 type SmallTestStruct struct {
