@@ -19,21 +19,32 @@ $ export PASSWORD="abc123"
 sensitive. The casing of the set environment variable must match the casing in
 the struct tag.
 
-Write some code. In this example, `Ip` requires that the `HOST_IP` environment variable is set to non empty value and
-`Port` defaults to `80` if `HOST_PORT` is an empty value. Then we use the `envstruct.WriteReport()` to print a
-table with a report of what fields are on the struct, the type, the environment variable where the value is read from,
-whether or not it is required, and the value. If using when `envstruct.WriteReport()` you wish to omit a sensitive
-value you can add `noreport` to the struct tag as shown with `Password`
+Write some code. In this example, `Ip` requires that the `HOST_IP` environment
+variable is set to non empty value and `Port` defaults to `80` if `HOST_PORT` is
+an empty value. Then we use the `envstruct.WriteReport()` to print a table with
+a report of what fields are on the struct, the type, the environment variable
+where the value is read from, whether or not it is required, and the value. If
+you wish to omit sensitive information when using `envstruct.WriteReport()` you
+can add `noreport` to the struct tag as shown with `Credentials`
 
 ```
 package main
 
 import envstruct "code.cloudfoundry.org/go-envstruct"
 
+type Credentials struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (c *Credentials) UnmarshalEnv(data string) error {
+	return json.Unmarshal([]byte(data), c)
+}
+
 type HostInfo struct {
-	IP       string `env:"HOST_IP,required"`
-	Password string `env:"PASSWORD,noreport"`
-	Port     int    `env:"HOST_PORT"`
+	Credentials Credentials `env:"CREDENTIALS, required, noreport"`
+	IP          string      `env:"HOST_IP,     required"`
+	Port        int         `env:"HOST_PORT"`
 }
 
 func main() {
@@ -52,10 +63,11 @@ Run your code and rejoice!
 
 ```
 $ go run example/example.go
-FIELD NAME:  TYPE:   ENV:       REQUIRED:  VALUE:
-Ip           string  HOST_IP    true       127.0.0.1
-Password     string  PASSWORD   false      (OMITTED)
-Port         int     HOST_PORT  false      80
+FIELD NAME:  TYPE:             ENV:         REQUIRED:  VALUE:
+Credentials  main.Credentials  CREDENTIALS  true       (OMITTED)
+IP           string            HOST_IP      true       10.0.0.1
+Port         int               HOST_PORT    false      80
+Credentials: {Username:my-user Password:my-password}
 ```
 
 ## Supported Types
@@ -84,6 +96,7 @@ Port         int     HOST_PORT  false      80
 - [x] map[string]string (Environment variable should have comma separated
   `key:value`. Keys cannot contain colons and neither key nor value can
   contain commas. e.g. `key_one:value_one, key_two:value_two`
+- [x] Custom Unmarshaller (see Credentials in example above)
 
 ## Running Tests
 
