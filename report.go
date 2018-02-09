@@ -9,7 +9,7 @@ import (
 	"text/tabwriter"
 )
 
-var ReportWriter io.Writer = os.Stdout
+var ReportWriter io.Writer = os.Stderr
 
 // WriteReport will take a struct that is setup for envstruct and print
 // out a report containing the struct field name, field type, environment
