@@ -16,7 +16,8 @@ import (
 var (
 	baseEnvVars = map[string]string{
 		"STRING_THING":            "stringy thingy",
-		"REQUIRED_THING":          "im so required",
+		"REQUIRED_THING_A":        "im so required",
+		"REQUIRED_THING_B":        "im so required",
 		"BOOL_THING":              "true",
 		"INT_THING":               "100",
 		"INT8_THING":              "20",
@@ -45,7 +46,8 @@ type LargeTestStruct struct {
 	NonEnvThing        string
 	DefaultThing       string `env:"DEFAULT_THING"`
 	StringThing        string `env:"STRING_THING"`
-	RequiredThing      string `env:"REQUIRED_THING,noreport,required"`
+	RequiredThingA     string `env:"REQUIRED_THING_A,noreport,required"`
+	RequiredThingB     string `env:"REQUIRED_THING_B,noreport,required"`
 	CaseSensitiveThing string `env:"CaSe_SeNsItIvE_ThInG"`
 
 	BoolThing bool `env:"BOOL_THING"`

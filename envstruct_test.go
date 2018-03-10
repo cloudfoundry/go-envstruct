@@ -258,13 +258,14 @@ var _ = Describe("envstruct", func() {
 		Context("when load is unsuccessful", func() {
 			Context("when a required environment variable is not given", func() {
 				BeforeEach(func() {
-					envVars["REQUIRED_THING"] = ""
+					envVars["REQUIRED_THING_A"] = ""
+					envVars["REQUIRED_THING_B"] = ""
 				})
 
-				It("returns a validation error", func() {
+				It("includes all required environment variables in the error", func() {
 					loadError = envstruct.Load(&ts)
 
-					Expect(loadError).To(MatchError(fmt.Errorf("REQUIRED_THING is required but was empty")))
+					Expect(loadError).To(MatchError(fmt.Errorf("missing required environment variables: REQUIRED_THING_A, REQUIRED_THING_B")))
 				})
 			})
 
@@ -276,7 +277,20 @@ var _ = Describe("envstruct", func() {
 				It("returns a validation error", func() {
 					loadError = envstruct.Load(&ts)
 
-					Expect(loadError).To(MatchError(fmt.Errorf("SUB_THING_B is required but was empty")))
+					Expect(loadError).To(MatchError(fmt.Errorf("missing required environment variables: SUB_THING_B")))
+				})
+			})
+
+			Context("when top leval and substruct are missing required arguments", func() {
+				BeforeEach(func() {
+					envVars["REQUIRED_THING_A"] = ""
+					envVars["SUB_THING_B"] = ""
+				})
+
+				It("returns an error with both environment variables", func() {
+					loadError = envstruct.Load(&ts)
+
+					Expect(loadError).To(MatchError(fmt.Errorf("missing required environment variables: REQUIRED_THING_A, SUB_THING_B")))
 				})
 			})
 
