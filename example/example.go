@@ -17,9 +17,9 @@ func (c *Credentials) UnmarshalEnv(data string) error {
 }
 
 type HostInfo struct {
-	Credentials Credentials `env:"CREDENTIALS, required, noreport"`
-	IP          string      `env:"HOST_IP,     required"`
-	Port        int         `env:"HOST_PORT"`
+	Credentials Credentials `env:"CREDENTIALS, required"`
+	IP          string      `env:"HOST_IP,     required, report"`
+	Port        int         `env:"HOST_PORT,             report"`
 }
 
 func main() {
