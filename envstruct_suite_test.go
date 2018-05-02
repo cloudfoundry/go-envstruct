@@ -81,13 +81,24 @@ type LargeTestStruct struct {
 }
 
 type SmallTestStruct struct {
-	HiddenThing        string   `env:"HIDDEN_THING,noreport"`
-	StringThing        string   `env:"STRING_THING"`
-	BoolThing          bool     `env:"BOOL_THING"`
-	IntThing           int      `env:"INT_THING"`
-	URLThing           *url.URL `env:"URL_THING"`
-	StringSliceThing   []string `env:"STRING_SLICE_THING"`
-	CaseSensitiveThing string   `env:"CaSe_SeNsItIvE_ThInG"`
+	HiddenThing           string   `env:"HIDDEN_THING"`
+	StringThing           string   `env:"STRING_THING,report"`
+	BoolThing             bool     `env:"BOOL_THING,report"`
+	IntThing              int      `env:"INT_THING,report"`
+	URLThing              *url.URL `env:"URL_THING,report"`
+	StringSliceThing      []string `env:"STRING_SLICE_THING,report"`
+	CaseSensitiveThing    string   `env:"CaSe_SeNsItIvE_ThInG,report"`
+	SmallTestSubStruct    SmallTestSubStruct
+	PtrSmallTestSubStruct *SmallTestSubStruct
+	NotReported           SmallTestStructWithNoEnv
+}
+
+type SmallTestSubStruct struct {
+	SecretThing string `env:"SECRET_THING"`
+}
+
+type SmallTestStructWithNoEnv struct {
+	FieldThing string
 }
 
 type ToEnvTestStruct struct {

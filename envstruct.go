@@ -15,7 +15,7 @@ const (
 	indexEnvVar = 0
 
 	tagRequired = "required"
-	tagNoReport = "noreport"
+	tagReport   = "report"
 )
 
 // Unmarshaller is a type which unmarshals itself from an environment variable.
