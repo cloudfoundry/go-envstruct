@@ -101,6 +101,10 @@ type SmallTestStructWithNoEnv struct {
 	FieldThing string
 }
 
+type SmallTestStructWithSubStructWithoutMarshaller struct {
+	FieldThing noMarshaller `env:"FIELD_THING"`
+}
+
 type ToEnvTestStruct struct {
 	HiddenThing        string   `env:"HIDDEN_THING,noreport"`
 	StringThing        string   `env:"STRING_THING"`
@@ -130,6 +134,9 @@ type spyUnmarshaller struct {
 func (s *spyUnmarshaller) UnmarshalEnv(v string) error {
 	s.UnmarshalEnvInput = v
 	return s.UnmarshalEnvOutput
+}
+
+type noMarshaller struct {
 }
 
 func TestEnvstruct(t *testing.T) {
