@@ -1,6 +1,7 @@
 package envstruct
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"os"
@@ -59,7 +60,8 @@ func load(t interface{}) (missing []string, err error) {
 			continue
 		}
 
-		subMissing, err := setField(valueField, envVal)
+		hasEnvTag := envVar != ""
+		subMissing, err := setField(valueField, envVal, hasEnvTag)
 		if err != nil {
 			return nil, err
 		}
@@ -126,7 +128,7 @@ func unmarshaller(v reflect.Value) (Unmarshaller, bool) {
 	return nil, false
 }
 
-func setField(value reflect.Value, input string) (missing []string, err error) {
+func setField(value reflect.Value, input string, hasEnvTag bool) (missing []string, err error) {
 	if !value.CanSet() {
 		return nil, nil
 	}
@@ -140,7 +142,12 @@ func setField(value reflect.Value, input string) (missing []string, err error) {
 
 	if unmarshaller, ok := unmarshaller(value); ok {
 		return nil, unmarshaller.UnmarshalEnv(input)
+	} else {
+		if value.Kind() == reflect.Struct && hasEnvTag {
+			return nil, errors.New(fmt.Sprintf("Nested struct %s with env tag needs to have an UnmarshallEnv method\n", value.Type().Name()))
+		}
 	}
+
 	switch value.Type() {
 	case reflect.TypeOf(time.Second):
 		return nil, setDuration(value, input)
@@ -158,7 +165,7 @@ func setField(value reflect.Value, input string) (missing []string, err error) {
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return nil, setUint(value, input)
 	case reflect.Slice:
-		return nil, setSlice(value, input)
+		return nil, setSlice(value, input, hasEnvTag)
 	case reflect.Map:
 		return nil, setMap(value, input)
 	case reflect.Struct:
@@ -253,12 +260,12 @@ func setUint(value reflect.Value, input string) error {
 	return nil
 }
 
-func setSlice(value reflect.Value, input string) error {
+func setSlice(value reflect.Value, input string, hasEnvTag bool) error {
 	inputs := separateOnComma(input)
 
 	rs := reflect.MakeSlice(value.Type(), len(inputs), len(inputs))
 	for i, val := range inputs {
-		_, err := setField(rs.Index(i), val)
+		_, err := setField(rs.Index(i), val, hasEnvTag)
 		if err != nil {
 			return err
 		}

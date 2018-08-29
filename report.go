@@ -9,6 +9,7 @@ import (
 	"text/tabwriter"
 )
 
+// ReportWriter struct writing to stderr by default
 var ReportWriter io.Writer = os.Stderr
 
 // WriteReport will take a struct that is setup for envstruct and print

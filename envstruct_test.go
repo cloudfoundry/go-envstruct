@@ -281,7 +281,7 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
-			Context("when top leval and substruct are missing required arguments", func() {
+			Context("when top level and substruct are missing required arguments", func() {
 				BeforeEach(func() {
 					envVars["REQUIRED_THING_A"] = ""
 					envVars["SUB_THING_B"] = ""
@@ -331,6 +331,17 @@ var _ = Describe("envstruct", func() {
 
 				It("returns an error", func() {
 					Expect(envstruct.Load(&ts)).ToNot(Succeed())
+				})
+			})
+
+			Context("with a missing unmarshaller on struct with an env tag", func() {
+				var withoutMarhsaller SmallTestStructWithSubStructWithoutMarshaller
+				BeforeEach(func() {
+					withoutMarhsaller = SmallTestStructWithSubStructWithoutMarshaller{}
+				})
+
+				It("returns an error", func() {
+					Expect(envstruct.Load(&withoutMarhsaller)).ToNot(Succeed())
 				})
 			})
 		})
