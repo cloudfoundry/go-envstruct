@@ -29,6 +29,10 @@ var (
 		"UINT16_THING":            "2000",
 		"UINT32_THING":            "200000",
 		"UINT64_THING":            "200000000",
+		"POINTER_TO_STRING":       "pointy stringy thingy",
+		"POINTER_TO_BOOL":         "true",
+		"POINTER_TO_INT":          "20",
+		"POINTER_TO_UINT":         "20",
 		"STRING_SLICE_THING":      "one,two,three",
 		"INT_SLICE_THING":         "1,2,3",
 		"MAP_STRING_STRING_THING": "key_one:value_one,key_two:value_two:with_colon",
@@ -62,6 +66,11 @@ type LargeTestStruct struct {
 	Uint16Thing uint16 `env:"UINT16_THING"`
 	Uint32Thing uint32 `env:"UINT32_THING"`
 	Uint64Thing uint64 `env:"UINT64_THING"`
+
+	PtrToString *string `env:"POINTER_TO_STRING"`
+	PtrToBool   *bool   `env:"POINTER_TO_BOOL"`
+	PtrToInt    *int    `env:"POINTER_TO_INT"`
+	PtrToUint   *uint   `env:"POINTER_TO_UINT"`
 
 	StringSliceThing []string `env:"STRING_SLICE_THING"`
 	IntSliceThing    []int    `env:"INT_SLICE_THING"`

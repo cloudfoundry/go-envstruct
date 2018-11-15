@@ -157,6 +157,24 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
+			Context("with pointers to primatives", func() {
+				It("populates the pointer to string thing", func() {
+					Expect(*ts.PtrToString).To(Equal("pointy stringy thingy"))
+				})
+
+				It("populates the pointer to bool thing", func() {
+					Expect(*ts.PtrToBool).To(BeTrue())
+				})
+
+				It("populates the pointer to int thing", func() {
+					Expect(*ts.PtrToInt).To(Equal(int(20)))
+				})
+
+				It("populates the pointer to uint thing", func() {
+					Expect(*ts.PtrToUint).To(Equal(uint(20)))
+				})
+			})
+
 			Context("with comma separated strings", func() {
 				Context("slice of strings", func() {
 					It("populates a slice of strings", func() {

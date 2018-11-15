@@ -171,7 +171,7 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 	case reflect.Struct:
 		return setStruct(value)
 	case reflect.Ptr:
-		return setPointerToStruct(value)
+		return setPointerToStruct(value, input, hasEnvTag)
 	}
 
 	return nil, nil
@@ -195,13 +195,17 @@ func setStruct(value reflect.Value) (missing []string, err error) {
 	return load(value.Addr().Interface())
 }
 
-func setPointerToStruct(value reflect.Value) (missing []string, err error) {
+func setPointerToStruct(value reflect.Value, input string, hasEnvTag bool) (missing []string, err error) {
 	if value.IsNil() {
 		p := reflect.New(value.Type().Elem())
 		value.Set(p)
 	}
 
-	return load(value.Interface())
+	if value.Type().Elem().Kind() == reflect.Struct {
+		return load(value.Interface())
+	}
+
+	return setField(value.Elem(), input, hasEnvTag)
 }
 
 func setDuration(value reflect.Value, input string) error {
