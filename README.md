@@ -91,7 +91,7 @@ Credentials: {Username:my-user Password:my-password}
 - [x] []slice (Slices of any other supported type. Environment variable should
   have coma separated values)
 - [x] time.Duration
-- [x] *url.URL
+- [x] \*url.URL
 - [x] Struct
 - [x] Pointer to Struct
 - [x] map[string]string (Environment variable should have comma separated
