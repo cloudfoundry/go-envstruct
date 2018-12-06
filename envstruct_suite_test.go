@@ -29,6 +29,9 @@ var (
 		"UINT16_THING":            "2000",
 		"UINT32_THING":            "200000",
 		"UINT64_THING":            "200000000",
+		"FLOAT_THING":             "3.14159",
+		"FLOAT32_THING":           "1.2345",
+		"FLOAT64_THING":           "9.8765",
 		"POINTER_TO_STRING":       "pointy stringy thingy",
 		"POINTER_TO_BOOL":         "true",
 		"POINTER_TO_INT":          "20",
@@ -67,6 +70,9 @@ type LargeTestStruct struct {
 	Uint32Thing uint32 `env:"UINT32_THING"`
 	Uint64Thing uint64 `env:"UINT64_THING"`
 
+	Float32Thing float32 `env:"FLOAT32_THING"`
+	Float64Thing float64 `env:"FLOAT64_THING"`
+
 	PtrToString *string `env:"POINTER_TO_STRING"`
 	PtrToBool   *bool   `env:"POINTER_TO_BOOL"`
 	PtrToInt    *int    `env:"POINTER_TO_INT"`
@@ -94,6 +100,7 @@ type SmallTestStruct struct {
 	StringThing           string   `env:"STRING_THING,report"`
 	BoolThing             bool     `env:"BOOL_THING,report"`
 	IntThing              int      `env:"INT_THING,report"`
+	FloatThing            float64  `env:"FLOAT_THING,report"`
 	URLThing              *url.URL `env:"URL_THING,report"`
 	StringSliceThing      []string `env:"STRING_SLICE_THING,report"`
 	CaseSensitiveThing    string   `env:"CaSe_SeNsItIvE_ThInG,report"`

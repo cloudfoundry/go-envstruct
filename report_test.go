@@ -46,6 +46,7 @@ SmallTestStruct.HiddenThing         string    HIDDEN_THING          false      (
 SmallTestStruct.StringThing         string    STRING_THING          false      stringy thingy
 SmallTestStruct.BoolThing           bool      BOOL_THING            false      true
 SmallTestStruct.IntThing            int       INT_THING             false      100
+SmallTestStruct.FloatThing          float64   FLOAT_THING           false      3.14159
 SmallTestStruct.URLThing            *url.URL  URL_THING             false      http://github.com/some/path
 SmallTestStruct.StringSliceThing    []string  STRING_SLICE_THING    false      [one two three]
 SmallTestStruct.CaseSensitiveThing  string    CASE_SENSITIVE_THING  false      case sensitive

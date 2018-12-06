@@ -164,6 +164,8 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 		return nil, setInt(value, input)
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return nil, setUint(value, input)
+	case reflect.Float32, reflect.Float64:
+		return nil, setFloat(value, input)
 	case reflect.Slice:
 		return nil, setSlice(value, input, hasEnvTag)
 	case reflect.Map:
@@ -260,6 +262,17 @@ func setUint(value reflect.Value, input string) error {
 	}
 
 	value.SetUint(uint64(n))
+
+	return nil
+}
+
+func setFloat(value reflect.Value, input string) error {
+	n, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		return err
+	}
+
+	value.SetFloat(float64(n))
 
 	return nil
 }

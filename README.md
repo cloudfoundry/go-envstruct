@@ -84,8 +84,8 @@ Credentials: {Username:my-user Password:my-password}
 - [x] uint16
 - [x] uint32
 - [x] uint64
-- [ ] float32
-- [ ] float64
+- [x] float32
+- [x] float64
 - [ ] complex64
 - [ ] complex128
 - [x] []slice (Slices of any other supported type. Environment variable should

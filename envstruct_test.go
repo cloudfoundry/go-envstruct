@@ -157,6 +157,16 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
+			Context("with floats", func() {
+				It("populates the float32 thing", func() {
+					Expect(ts.Float32Thing).To(Equal(float32(1.2345)))
+				})
+
+				It("populates the float64 thing", func() {
+					Expect(ts.Float64Thing).To(Equal(float64(9.8765)))
+				})
+			})
+
 			Context("with pointers to primatives", func() {
 				It("populates the pointer to string thing", func() {
 					Expect(*ts.PtrToString).To(Equal("pointy stringy thingy"))
