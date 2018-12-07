@@ -149,6 +149,12 @@ type SubTestStruct struct {
 	SubThingB int    `env:"SUB_THING_B,required"`
 }
 
+type UnsupportedType uintptr
+
+type WithUnsupportedTypeStruct struct {
+	Unsupported UnsupportedType `env:"UNSUPPORTED"`
+}
+
 type spyUnmarshaller struct {
 	UnmarshalEnvInput  string
 	UnmarshalEnvOutput error

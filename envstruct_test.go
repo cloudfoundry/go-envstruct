@@ -382,6 +382,18 @@ var _ = Describe("envstruct", func() {
 					Expect(envstruct.Load(&withoutMarhsaller)).ToNot(Succeed())
 				})
 			})
+
+			Context("with an unsupported type", func() {
+				var withUnsupportedType WithUnsupportedTypeStruct
+				BeforeEach(func() {
+					envVars["UNSUPPORTED"] = "unsupported"
+					withUnsupportedType = WithUnsupportedTypeStruct{}
+				})
+
+				It("returns an error", func() {
+					Expect(envstruct.Load(&withUnsupportedType)).To(MatchError("unsupported type uintptr"))
+				})
+			})
 		})
 	})
 

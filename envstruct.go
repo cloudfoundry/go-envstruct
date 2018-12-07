@@ -178,7 +178,7 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 		return setPointerToStruct(value, input, hasEnvTag)
 	}
 
-	return nil, nil
+	return nil, fmt.Errorf("unsupported type %s", value.Kind())
 }
 
 func separateOnComma(input string) []string {
