@@ -166,6 +166,8 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 		return nil, setUint(value, input)
 	case reflect.Float32, reflect.Float64:
 		return nil, setFloat(value, input)
+	case reflect.Complex64, reflect.Complex128:
+		return nil, setComplex(value, input)
 	case reflect.Slice:
 		return nil, setSlice(value, input, hasEnvTag)
 	case reflect.Map:
@@ -273,6 +275,23 @@ func setFloat(value reflect.Value, input string) error {
 	}
 
 	value.SetFloat(float64(n))
+
+	return nil
+}
+
+func setComplex(value reflect.Value, input string) error {
+	var n complex128
+
+	count, err := fmt.Sscanf(input, "%g", &n)
+	if err != nil {
+		return err
+	}
+
+	if count != 1 {
+		return fmt.Errorf("Expected to parse 1 complex number, found %d", count)
+	}
+
+	value.SetComplex(n)
 
 	return nil
 }

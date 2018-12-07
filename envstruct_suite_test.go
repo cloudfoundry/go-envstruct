@@ -32,6 +32,9 @@ var (
 		"FLOAT_THING":             "3.14159",
 		"FLOAT32_THING":           "1.2345",
 		"FLOAT64_THING":           "9.8765",
+		"COMPLEX_THING":           "(3+14159i)",
+		"COMPLEX64_THING":         "(1+2345i)",
+		"COMPLEX128_THING":        "(9+8765i)",
 		"POINTER_TO_STRING":       "pointy stringy thingy",
 		"POINTER_TO_BOOL":         "true",
 		"POINTER_TO_INT":          "20",
@@ -73,6 +76,9 @@ type LargeTestStruct struct {
 	Float32Thing float32 `env:"FLOAT32_THING"`
 	Float64Thing float64 `env:"FLOAT64_THING"`
 
+	Complex64Thing  complex64  `env:"COMPLEX64_THING"`
+	Complex128Thing complex128 `env:"COMPLEX128_THING"`
+
 	PtrToString *string `env:"POINTER_TO_STRING"`
 	PtrToBool   *bool   `env:"POINTER_TO_BOOL"`
 	PtrToInt    *int    `env:"POINTER_TO_INT"`
@@ -96,14 +102,15 @@ type LargeTestStruct struct {
 }
 
 type SmallTestStruct struct {
-	HiddenThing           string   `env:"HIDDEN_THING"`
-	StringThing           string   `env:"STRING_THING,report"`
-	BoolThing             bool     `env:"BOOL_THING,report"`
-	IntThing              int      `env:"INT_THING,report"`
-	FloatThing            float64  `env:"FLOAT_THING,report"`
-	URLThing              *url.URL `env:"URL_THING,report"`
-	StringSliceThing      []string `env:"STRING_SLICE_THING,report"`
-	CaseSensitiveThing    string   `env:"CaSe_SeNsItIvE_ThInG,report"`
+	HiddenThing           string     `env:"HIDDEN_THING"`
+	StringThing           string     `env:"STRING_THING,report"`
+	BoolThing             bool       `env:"BOOL_THING,report"`
+	IntThing              int        `env:"INT_THING,report"`
+	FloatThing            float64    `env:"FLOAT_THING,report"`
+	ComplexThing          complex128 `env:"COMPLEX_THING,report"`
+	URLThing              *url.URL   `env:"URL_THING,report"`
+	StringSliceThing      []string   `env:"STRING_SLICE_THING,report"`
+	CaseSensitiveThing    string     `env:"CaSe_SeNsItIvE_ThInG,report"`
 	SmallTestSubStruct    SmallTestSubStruct
 	PtrSmallTestSubStruct *SmallTestSubStruct
 	NotReported           SmallTestStructWithNoEnv
