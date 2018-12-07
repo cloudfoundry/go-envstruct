@@ -167,6 +167,16 @@ var _ = Describe("envstruct", func() {
 				})
 			})
 
+			Context("with complex types", func() {
+				It("populates the complex64 thing", func() {
+					Expect(ts.Complex64Thing).To(Equal(complex64(1 + 2345i)))
+				})
+
+				It("populates the complex128 thing", func() {
+					Expect(ts.Complex128Thing).To(Equal(complex128(9 + 8765i)))
+				})
+			})
+
 			Context("with pointers to primatives", func() {
 				It("populates the pointer to string thing", func() {
 					Expect(*ts.PtrToString).To(Equal("pointy stringy thingy"))

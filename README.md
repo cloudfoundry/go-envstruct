@@ -86,8 +86,8 @@ Credentials: {Username:my-user Password:my-password}
 - [x] uint64
 - [x] float32
 - [x] float64
-- [ ] complex64
-- [ ] complex128
+- [x] complex64
+- [x] complex128
 - [x] []slice (Slices of any other supported type. Environment variable should
   have coma separated values)
 - [x] time.Duration
