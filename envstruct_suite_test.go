@@ -42,6 +42,7 @@ var (
 		"STRING_SLICE_THING":      "one,two,three",
 		"INT_SLICE_THING":         "1,2,3",
 		"MAP_STRING_STRING_THING": "key_one:value_one,key_two:value_two:with_colon",
+		"MAP_INT_STRING_THING":    "1:value_one,2:value_two:with_colon",
 		"DURATION_THING":          "2s",
 		"URL_THING":               "http://github.com/some/path",
 		"UNMARSHALLER_POINTER":    "pointer",
@@ -88,6 +89,7 @@ type LargeTestStruct struct {
 	IntSliceThing    []int    `env:"INT_SLICE_THING"`
 
 	MapStringStringThing map[string]string `env:"MAP_STRING_STRING_THING"`
+	MapIntStringThing    map[int]string    `env:"MAP_INT_STRING_THING"`
 
 	DurationThing time.Duration `env:"DURATION_THING"`
 	URLThing      *url.URL      `env:"URL_THING"`
