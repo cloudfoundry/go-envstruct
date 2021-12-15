@@ -113,5 +113,3 @@ $ ginkgo
 [loggregator-slack]: https://cloudfoundry.slack.com/archives/loggregator
 [go-doc-badge]:      https://godoc.org/code.cloudfoundry.org/go-envstruct?status.svg
 [go-doc]:            https://godoc.org/code.cloudfoundry.org/go-envstruct
-[travis-badge]:      https://travis-ci.org/cloudfoundry/go-envstruct.svg?branch=master
-[travis]:            https://travis-ci.org/cloudfoundry/go-envstruct?branch=master
