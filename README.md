@@ -1,6 +1,6 @@
 # envstruct
 
-[![GoDoc][go-doc-badge]][go-doc] [![travis][travis-badge]][travis] [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
+[![GoDoc][go-doc-badge]][go-doc] [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
 
 envstruct is a simple library for populating values on structs from environment
 variables.
