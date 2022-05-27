@@ -30,7 +30,10 @@ func main() {
 		panic(err)
 	}
 
-	envstruct.WriteReport(&hi)
+	err = envstruct.WriteReport(&hi)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Printf("Credentials: %+v\n", hi.Credentials)
 }

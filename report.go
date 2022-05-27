@@ -70,14 +70,14 @@ func writeReport(t interface{}, w io.Writer) error {
 			displayedValue = fmt.Sprint(valueField)
 		}
 
-		fmt.Fprintln(w, fmt.Sprintf(
-			"%s.%v\t%v\t%v\t%t\t%v",
+		fmt.Fprintf(w,
+			"%s.%v\t%v\t%v\t%t\t%v\n",
 			name,
 			typeField.Name,
 			valueField.Type(),
 			envVar,
 			isRequired,
-			displayedValue))
+			displayedValue)
 	}
 
 	return nil

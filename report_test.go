@@ -31,7 +31,7 @@ var _ = Describe("Report", func() {
 			err = envstruct.WriteReport(&ts)
 			Expect(err).ToNot(HaveOccurred())
 
-			outputText = string(outputBuffer.Bytes())
+			outputText = outputBuffer.String()
 		})
 
 		It("prints a report of the given envstruct struct", func() {
