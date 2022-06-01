@@ -2,6 +2,8 @@
 
 [![GoDoc][go-doc-badge]][go-doc] [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
 
+If you have any questions, or want to get attention for a PR or issue please reach out on the [#logging-and-metrics channel in the cloudfoundry slack](https://cloudfoundry.slack.com/archives/CUW93AF3M)
+
 envstruct is a simple library for populating values on structs from environment
 variables.
 
@@ -109,7 +111,5 @@ $ go get github.com/onsi/gomega
 $ ginkgo
 ```
 
-[slack-badge]:       https://slack.cloudfoundry.org/badge.svg
-[loggregator-slack]: https://cloudfoundry.slack.com/archives/loggregator
 [go-doc-badge]:      https://godoc.org/code.cloudfoundry.org/go-envstruct?status.svg
 [go-doc]:            https://godoc.org/code.cloudfoundry.org/go-envstruct
