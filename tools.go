@@ -1,8 +1,8 @@
 //go:build tools
 // +build tools
 
-package envstruct
+package tools
 
 import (
-	_ "github.com/onsi/ginkgo/ginkgo"
+	_ "github.com/onsi/ginkgo/v2/ginkgo"
 )
