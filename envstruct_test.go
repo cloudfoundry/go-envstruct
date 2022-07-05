@@ -9,7 +9,7 @@ import (
 
 	envstruct "code.cloudfoundry.org/go-envstruct"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
