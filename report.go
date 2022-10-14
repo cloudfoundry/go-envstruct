@@ -16,7 +16,7 @@ var ReportWriter io.Writer = os.Stderr
 // out a report containing the struct field name, field type, environment
 // variable for that field, whether or not the field is required and
 // the value of that field. The report is written to `ReportWriter`
-// which defaults to `os.StdOut`. By default all values are omitted. This
+// which defaults to `os.Stderr`. By default all values are omitted. This
 // prevents logging of secrets. To not omit a value, you must add the `report`
 // value in the `env` struct tag.
 func WriteReport(t interface{}) error {
