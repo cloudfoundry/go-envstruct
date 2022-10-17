@@ -21,7 +21,7 @@ $ export PASSWORD="abc123"
 sensitive. The casing of the set environment variable must match the casing in
 the struct tag.
 
-Write some code. In this example, `Ip` requires that the `HOST_IP` environment
+Write some code. In this example, `IP` requires that the `HOST_IP` environment
 variable is set to non empty value and `Port` defaults to `80` if `HOST_PORT` is
 an empty value. Then we use the `envstruct.WriteReport()` to print a table with
 a report of what fields are on the struct, the type, the environment variable
@@ -106,9 +106,7 @@ Credentials: {Username:my-user Password:my-password}
 Run tests using ginkgo.
 
 ```
-$ go get github.com/onsi/ginkgo/ginkgo
-$ go get github.com/onsi/gomega
-$ ginkgo
+$ go run github.com/onsi/ginkgo/v2/ginkgo -r
 ```
 
 [go-doc-badge]:      https://godoc.org/code.cloudfoundry.org/go-envstruct?status.svg
