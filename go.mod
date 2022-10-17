@@ -3,8 +3,8 @@ module code.cloudfoundry.org/go-envstruct
 go 1.19
 
 require (
-	github.com/onsi/ginkgo/v2 v2.2.0
-	github.com/onsi/gomega v1.20.2
+	github.com/onsi/ginkgo/v2 v2.3.1
+	github.com/onsi/gomega v1.22.0
 )
 
 require (
