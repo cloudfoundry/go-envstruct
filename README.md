@@ -103,11 +103,11 @@ Credentials: {Username:my-user Password:my-password}
 
 ## Running Tests
 
-Run tests using ginkgo.
-
 ```
-$ go run github.com/onsi/ginkgo/v2/ginkgo -r
+$ ./hack/test.sh
 ```
 
+[slack-badge]:       https://slack.cloudfoundry.org/badge.svg
+[loggregator-slack]: https://cloudfoundry.slack.com/archives/CUW93AF3M
 [go-doc-badge]:      https://godoc.org/code.cloudfoundry.org/go-envstruct?status.svg
 [go-doc]:            https://godoc.org/code.cloudfoundry.org/go-envstruct
