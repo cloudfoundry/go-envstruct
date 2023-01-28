@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         go-version-file: go.mod
-    - run: go run github.com/onsi/ginkgo/v2/ginkgo -r -p -race --randomize-all --randomize-suites
+    - run: ./hack/test.sh
 
   vet:
     runs-on: ubuntu-latest
