@@ -1,5 +1,3 @@
-//go:generate hel
-
 package envstruct_test
 
 import (
