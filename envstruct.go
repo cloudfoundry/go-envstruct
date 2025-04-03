@@ -143,7 +143,7 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 		return nil, unmarshaller.UnmarshalEnv(input)
 	} else {
 		if value.Kind() == reflect.Struct && hasEnvTag {
-			return nil, fmt.Errorf("Nested struct %s with env tag needs to have an UnmarshallEnv method\n", value.Type().Name())
+			return nil, fmt.Errorf("nested struct %s with env tag needs to have an UnmarshallEnv method", value.Type().Name())
 		}
 	}
 
@@ -287,7 +287,7 @@ func setComplex(value reflect.Value, input string) error {
 	}
 
 	if count != 1 {
-		return fmt.Errorf("Expected to parse 1 complex number, found %d", count)
+		return fmt.Errorf("expected to parse 1 complex number, found %d", count)
 	}
 
 	value.SetComplex(n)
