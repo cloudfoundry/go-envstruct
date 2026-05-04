@@ -51,7 +51,7 @@ func writeReport(t interface{}, w io.Writer) error {
 				}
 			}
 
-			if valueField.Kind() == reflect.Ptr {
+			if valueField.Kind() == reflect.Pointer {
 				if err := writeReport(valueField.Interface(), w); err != nil {
 					return err
 
