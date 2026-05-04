@@ -92,7 +92,7 @@ func ToEnv(t interface{}) []string {
 			results = append(results, formatMap(envVar, valueField))
 		case reflect.Struct:
 			results = append(results, ToEnv(valueField.Addr().Interface())...)
-		case reflect.Ptr:
+		case reflect.Pointer:
 			if valueField.Type() == reflect.TypeOf(&url.URL{}) {
 				results = append(results, fmt.Sprintf("%s=%+v", envVar, valueField))
 				continue
@@ -133,7 +133,7 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 	}
 
 	if input == "" &&
-		(value.Kind() != reflect.Ptr) &&
+		(value.Kind() != reflect.Pointer) &&
 		(value.Kind() != reflect.Struct) {
 
 		return nil, nil
@@ -173,7 +173,7 @@ func setField(value reflect.Value, input string, hasEnvTag bool) (missing []stri
 		return nil, setMap(value, input)
 	case reflect.Struct:
 		return setStruct(value)
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return setPointerToStruct(value, input, hasEnvTag)
 	}
 
